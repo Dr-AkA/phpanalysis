@@ -1,20 +1,18 @@
+import os
 import re
 import sys
 
 # Check for command-line arguments
 if len(sys.argv) != 2:
-    print("Usage: python analysis.py <path-to-code>")
+    print("Usage: python analysis.py <path-to-folder>")
     sys.exit()
 
-# Get the path to the code
-code_path = sys.argv[1]
+# Get the path to the folder
+folder_path = sys.argv[1]
 
-# Check if the path exists and is a file
-try:
-    with open(code_path, 'r') as f:
-        code = f.read()
-except FileNotFoundError:
-    print("The specified path does not exist or is not a file.")
+# Check if the path exists and is a directory
+if not os.path.isdir(folder_path):
+    print("The specified path is not a directory or does not exist.")
     sys.exit()
 
 # Define the patterns to search for
@@ -34,13 +32,20 @@ patterns = [
     # Look for directory traversal vulnerabilities
     r'/\.\.\//',  # Matches occurrences of "../" which could indicate an attempt at directory traversal
     r'/\.\./',    # Matches occurrences of ".." which could also indicate directory traversal attempts without the following "/"
-    r'mysql_query\(\$.*?\)',
+    
     # Look for command injection vulnerabilities
     r';\s*(?:system|exec|shell_exec|passthru|pcntl_exec)\(.*?\);', # Matches common PHP functions used for command execution with any content inside parentheses
 ]
 
-# Search for patterns in the code
-for pattern in patterns:
-    match = re.search(pattern, code)
-    if match:
-        print(f"Flaw detected:  {match.group(0)} the pattern is {pattern}")
+# Search for patterns in each PHP file in the folder and its subdirectories
+for root, dirs, files in os.walk(folder_path):
+    for filename in files:
+        if filename.endswith('.php'):
+            file_path = os.path.join(root, filename)
+            with open(file_path, 'r') as f:
+                lines = f.readlines()
+                for line_num, line in enumerate(lines, start=1):
+                    for pattern in patterns:
+                        match = re.search(pattern, line)
+                        if match:
+                            print(f"Flaw detected in directory '{os.path.basename(root)}', file '{filename}', line {line_num}: {match.group(0)}")
