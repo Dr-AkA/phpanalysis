@@ -1,6 +1,12 @@
 import os
 import re
 import sys
+import logging
+from datetime import datetime
+
+# Set up logging
+log_filename = "flaw_detection_log.txt"
+logging.basicConfig(filename=log_filename, level=logging.INFO, format='%(asctime)s - %(message)s')
 
 # Check for command-line arguments
 if len(sys.argv) != 2:
@@ -48,4 +54,6 @@ for root, dirs, files in os.walk(folder_path):
                     for pattern in patterns:
                         match = re.search(pattern, line)
                         if match:
-                            print(f"Flaw detected in directory '{os.path.basename(root)}', file '{filename}', line {line_num}: {match.group(0)}")
+                            log_message = f"Flaw detected in directory '{os.path.basename(root)}', file '{filename}', line {line_num}: {match.group(0)} the matched pattern {pattern}"
+                            print(log_message)  # Print to console
+                            logging.info(log_message)  # Log to file

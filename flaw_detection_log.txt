@@ -1,0 +1,8 @@
+2024-02-10 11:19:35,074 - Flaw detected in directory 'errorlog', file 'dashboard.php', line 60: $_GET['page']
+2024-02-10 11:19:35,076 - Flaw detected in directory 'errorlog', file 'error_table.php', line 8: $_GET['page']
+2024-02-10 11:19:35,077 - Flaw detected in directory 'symfony', file 'dashboard.php', line 62: $_GET['page']
+2024-02-10 11:19:35,078 - Flaw detected in directory 'symfony', file 'error_table.php', line 8: $_GET['page']
+2024-02-10 11:20:20,200 - Flaw detected in directory 'errorlog', file 'dashboard.php', line 60: $_GET['page'] the matched pattern (\$_GET|\$_POST|\$_REQUEST)\[.*?\]
+2024-02-10 11:20:20,203 - Flaw detected in directory 'errorlog', file 'error_table.php', line 8: $_GET['page'] the matched pattern (\$_GET|\$_POST|\$_REQUEST)\[.*?\]
+2024-02-10 11:20:20,205 - Flaw detected in directory 'symfony', file 'dashboard.php', line 62: $_GET['page'] the matched pattern (\$_GET|\$_POST|\$_REQUEST)\[.*?\]
+2024-02-10 11:20:20,206 - Flaw detected in directory 'symfony', file 'error_table.php', line 8: $_GET['page'] the matched pattern (\$_GET|\$_POST|\$_REQUEST)\[.*?\]
