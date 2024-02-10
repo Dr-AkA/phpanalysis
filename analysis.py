@@ -34,7 +34,7 @@ patterns = [
     # Look for directory traversal vulnerabilities
     r'/\.\.\//',  # Matches occurrences of "../" which could indicate an attempt at directory traversal
     r'/\.\./',    # Matches occurrences of ".." which could also indicate directory traversal attempts without the following "/"
-    
+    r'mysql_query\(\$.*?\)',
     # Look for command injection vulnerabilities
     r';\s*(?:system|exec|shell_exec|passthru|pcntl_exec)\(.*?\);', # Matches common PHP functions used for command execution with any content inside parentheses
 ]
@@ -43,4 +43,4 @@ patterns = [
 for pattern in patterns:
     match = re.search(pattern, code)
     if match:
-        print("Flaw detected: " + match.group(0))
+        print(f"Flaw detected:  {match.group(0)} the pattern is {pattern}")
